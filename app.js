@@ -18,12 +18,12 @@ const SF_CONFIG = {
 
 const MODEL_CONFIG = {
   DEV: [
-    { label: "Manx", id: "01tSr00000BCqJ4IAL" },
+    { label: "Manx", id: "01tQ100000EZoEqIAL" },
     { label: "Manx First Edition", id: "01tQ100000DYTmTIAX" },
-    { label: "Manx R", id: "01tSr00000BCrWrIAL" },
-    { label: "Manx R First Edition", id: "01tSr00000BCrVFIA1" },
-    { label: "Atlas", id: "01tSr00000BCqKgIAL" },
-    { label: "Atlas GT", id: "01tSr00000BCrbhIAD" }
+    { label: "Manx R", id: "01tQ100000EZlP1IAL" },
+    { label: "Manx R First Edition", id: "01tQ100000EZqQHIA1" },
+    { label: "Atlas", id: "01tQ100000EZo3XIAT" },
+    { label: "Atlas GT", id: "01tQ100000EZmxpIAD" }
   ],
   UAT: [
     { label: "Manx", id: "01tS900000FHAgtIAH" },
