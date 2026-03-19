@@ -924,7 +924,7 @@ async function exportLeads() {
       reader.onload = function () {
         const link = document.createElement("a");
         link.href = reader.result;
-        link.download = "norton_leads_${Date.now()}.enc";
+        link.download = `norton_leads_${Date.now()}.enc`;
         link.click();
       };
       
