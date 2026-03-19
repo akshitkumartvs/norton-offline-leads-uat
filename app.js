@@ -909,26 +909,13 @@ async function exportLeads() {
       data: encrypted
     });
 
-    /*const blob = new Blob([encrypted], { type: "application/octet-stream" });
+    const blob = new Blob([encrypted], { type: "application/octet-stream" });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = `norton_leads_${Date.now()}.enc`;
 
-    link.click();*/
-
-     const blob = new Blob([encrypted], { type: "application/octet-stream" });
-
-      const reader = new FileReader();
-      
-      reader.onload = function () {
-        const link = document.createElement("a");
-        link.href = reader.result;
-        link.download = `norton_leads_${Date.now()}.enc`;
-        link.click();
-      };
-      
-      reader.readAsDataURL(blob);
+    link.click();
 
 
     closeExportModal();
