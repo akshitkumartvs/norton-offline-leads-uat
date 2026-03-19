@@ -26,7 +26,7 @@ const MODEL_CONFIG = {
     { label: "Atlas GT", id: "01tQ100000EZmxpIAD" }
   ],
   UAT: [
-    { label: "Manx", id: "01tS900000FHAgtIAH" },
+    { label: "Manx", id: "01tS900000IE4sdIAD" },
     { label: "Manx First Edition", id: "01tS900000FJGA7IAP" },
     { label: "Manx R", id: "01tS900000FHFq1IAH" },
     { label: "Manx R First Edition", id: "01tS900000FHFoPIAX" },
