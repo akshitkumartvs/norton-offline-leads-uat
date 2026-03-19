@@ -909,7 +909,7 @@ async function exportLeads() {
       data: encrypted
     });
 
-    const blob = new Blob([finalData], { type: "application/json" });
+    const blob = new Blob([encrypted], { type: "application/octet-stream" });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
