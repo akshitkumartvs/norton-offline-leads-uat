@@ -181,8 +181,22 @@ function getPendingText(count) {
 
     data.oid = ACTIVE.ORG_ID;
     data.retURL = "about:blank";
+    if (!data.company) {
+      data.company = "Individual";
+    }
+       
+    const REJECT_FIELDS = [
+      "id",
+      "mode",
+      "status",
+      "createdAt",
+      "campaign_id"
+    ];
 
     Object.entries(data).forEach(([k, v]) => {
+
+      if (REJECT_FIELDS.includes(k)) return;
+       
       if (v !== undefined) {
         const i = document.createElement("input");
         i.type = "hidden";
