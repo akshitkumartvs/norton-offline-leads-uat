@@ -210,7 +210,7 @@ function getPendingText(count) {
     const batch = queue.slice(0, BATCH);
 
     batch.forEach((item, i) =>
-      setTimeout(() => sendLead(item, i), i * 600)
+      setTimeout(() => sendLead(item, i), i * 1800)
     );
 
     const ids = batch.map(item => item.id);
