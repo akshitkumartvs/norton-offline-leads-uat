@@ -671,3 +671,10 @@ input[type="checkbox"] {
 
   text-align: center;
 }
+.modal-input::placeholder {
+  color: var(--norton-black-600);  
+  opacity: 1;                    
+}
+.modal-input::-webkit-input-placeholder {
+  color: var(--norton-black-600);
+}
