@@ -502,7 +502,10 @@ const I18N = {
     deleteConfirmTitle: "Type DELETE to confirm",
     typeDelete: "Type DELETE",
     statsLabel: "Stats",
-    viewStats: "View Stats"
+    viewStats: "View Stats",
+    passwordRequired: "Please enter password",
+    passwordMismatch: "Passwords do not match",
+    passwordWeak: "Password must be at least 8 characters long and include uppercase, lowercase, number and special character"
   },
 
   fr: {
@@ -559,7 +562,10 @@ const I18N = {
     deleteConfirmTitle: "Tapez DELETE pour confirmer",
     typeDelete: "Tapez DELETE",
     statsLabel: "Stats",
-    viewStats: "Voir les statistiques"
+    viewStats: "Voir les statistiques",
+    passwordRequired: "Veuillez entrer le mot de passe",
+    passwordMismatch: "Les mots de passe ne correspondent pas",
+    passwordWeak: "Le mot de passe doit contenir au moins 8 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial"
   },
 
   de: {
@@ -616,7 +622,10 @@ const I18N = {
     deleteConfirmTitle: "Geben Sie DELETE ein, um zu bestätigen",
     typeDelete: "DELETE eingeben",
     statsLabel: "Statistik",
-    viewStats: "Statistiken anzeigen"
+    viewStats: "Statistiken anzeigen",
+    passwordRequired: "Bitte Passwort eingeben",
+    passwordMismatch: "Passwörter stimmen nicht überein",
+    passwordWeak: "Das Passwort muss mindestens 8 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen enthalten"
   },
   es: {
     title: "Formulario de consulta Norton",
@@ -672,7 +681,10 @@ const I18N = {
     deleteConfirmTitle: "Escriba DELETE para confirmar",
     typeDelete: "Escriba DELETE",
     statsLabel: "Estadísticas",
-    viewStats: "Ver estadísticas"
+    viewStats: "Ver estadísticas",
+    passwordRequired: "Por favor ingrese la contraseña",
+    passwordMismatch: "Las contraseñas no coinciden",
+    passwordWeak: "La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas, números y caracteres especiales"
 
   },
   it: {
@@ -729,7 +741,10 @@ const I18N = {
     deleteConfirmTitle: "Digita DELETE per confermare",
     typeDelete: "Digita DELETE",
     statsLabel: "Statistiche",
-    viewStats: "Visualizza statistiche"
+    viewStats: "Visualizza statistiche",
+    passwordRequired: "Inserisci la password",
+    passwordMismatch: "Le password non corrispondono",
+    passwordWeak: "La password deve contenere almeno 8 caratteri e includere maiuscole, minuscole, numeri e caratteri speciali"
   }
   
 };
@@ -836,21 +851,27 @@ async function loadStats() {
 }
 function openExportModal() {
    document.getElementById("exportModal").style.display = "flex";
+   applyLanguage(localStorage.getItem("lang") || "en");
 }
 
 function closeExportModal() {
   document.getElementById("exportModal").style.display = "none";
+  const input1 = document.getElementById("exportPassword");
+  input1.value = "";
+  const input2 = document.getElementById("confirmPassword");
+  input2.value = "";
 }
 
 function openDeleteModal() {
   document.getElementById("deleteModal").style.display = "flex";
-  const input = document.getElementById("deleteConfirmText");
-  input.value = "";
   setTimeout(() => input.focus(), 100);
+  applyLanguage(localStorage.getItem("lang") || "en");
 }
 
 function closeDeleteModal() {
   document.getElementById("deleteModal").style.display = "none";
+  const input = document.getElementById("deleteConfirmText");
+  input.value = "";
 }
 function convertToCSV(data) {
   if (!data.length) return "";
@@ -881,16 +902,22 @@ async function exportLeads() {
   const password = document.getElementById("exportPassword").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
 
+  const lang = localStorage.getItem("lang") || "en";
+
   if (!password || !confirmPassword) {
-    alert("Please enter password");
+    alert(I18N[lang].passwordRequired);
     return;
   }
 
   if (password !== confirmPassword) {
-    alert("Passwords do not match");
+    alert(I18N[lang].passwordMismatch);
     return;
   }
 
+  if (!validatePassword(password)) {
+    alert(I18N[lang].passwordWeak);
+    return;
+  }
   try {
     const leads = await getQueue();
 
@@ -909,14 +936,13 @@ async function exportLeads() {
       data: encrypted
     });
 
-    const blob = new Blob([encrypted], { type: "application/octet-stream" });
+    const blob = new Blob([finalData], { type: "application/json" });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = `norton_leads_${Date.now()}.enc`;
 
     link.click();
-
 
     closeExportModal();
     document.getElementById("exportPassword").value = "";
@@ -988,4 +1014,10 @@ async function clearAllLeads() {
     console.error("Delete error:", err);
     alert("Error deleting leads");
   }
+}
+function validatePassword(password) {
+  const strongRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  return strongRegex.test(password);
 }
